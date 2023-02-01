@@ -36,6 +36,14 @@ public class FileUtil {
         Stream.of(entries).forEach(f -> findFiles(f, files, suffix));
     }
 
+    /**
+     * Searches through the provided {@link File}
+     * for directories and adds them to the provided {@link List}
+     *
+     * @param file        {@link File} that you want to search through
+     * @param directories {@link List} where you want to store all those directories
+     */
+
     public static void findDirectories(File file, List<File> directories) {
         if (!file.isDirectory())
             return;
