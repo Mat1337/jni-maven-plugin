@@ -1,3 +1,5 @@
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
+
 # jni-maven-plugin
 Plugin for developing native Java applications through Maven
 
