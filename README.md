@@ -1,3 +1,4 @@
+[![Release](https://jitpack.io/v/Mat1337/jni-maven-plugin.svg)](https://jitpack.io/Mat1337/jni-maven-plugin)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
 # jni-maven-plugin
