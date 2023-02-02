@@ -1,9 +1,15 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
 # jni-maven-plugin
-Plugin for developing native Java applications through Maven
+*Plugin for developing native Java applications through Maven*
 
 ## Usage
+
+Place all the native source code in
+
+```java
+    src/main/c++
+```
 
 ```xml
 <build>
