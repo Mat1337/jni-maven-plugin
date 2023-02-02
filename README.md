@@ -38,3 +38,30 @@ Plugin for developing native Java applications through Maven
     </plugins>
 </build>
 ```
+
+## Linking configuration example
+
+```xml
+<configuration>
+    <includes>
+        <include>C:/path/to/include/directory</include>
+    </includes>
+    <linker>
+        <directories>
+            <directory>C:/path/to/link/directory</directory>
+        </directories>
+        <libraries>
+            <library>library_name</library>
+        </libraries>
+    </linker>
+</configuration>
+```
+
+## Extra compilation flags
+```xml
+<configuration>
+    <flags>
+        <flag>-fPIC</flag>
+    </flags>
+</configuration>
+```

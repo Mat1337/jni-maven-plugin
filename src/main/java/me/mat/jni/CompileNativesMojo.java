@@ -44,6 +44,9 @@ public class CompileNativesMojo extends AbstractMojo {
     @Parameter(property = "linker")
     private Linker linker;
 
+    @Parameter(property = "flags")
+    private String[] flags;
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         final File[] files = source.listFiles();
@@ -53,7 +56,11 @@ public class CompileNativesMojo extends AbstractMojo {
         final List<File> sourceFiles = new ArrayList<>();
         FileUtil.findFiles(files[0], sourceFiles, ".cpp");
 
-        final ProcessStarter processStarter = new ProcessStarter("g++", "-fPIC", "-shared");
+        final String[] flags = new String[this.flags.length + 1];
+        flags[0] = "-shared";
+        System.arraycopy(this.flags, 0, flags, 1, this.flags.length);
+
+        final ProcessStarter processStarter = new ProcessStarter("g++", flags);
         processStarter.set("-o", OperatingSystem.getSystem().getDynamicLibrary(buildDirectory, finalName).getAbsolutePath());
         processStarter.add("-I" + generated.getAbsolutePath());
 
