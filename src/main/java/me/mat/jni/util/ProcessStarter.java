@@ -1,5 +1,7 @@
 package me.mat.jni.util;
 
+import org.apache.maven.plugin.MojoExecutionException;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,12 +26,13 @@ public class ProcessStarter {
         arguments.add(argument);
     }
 
-    public void start(File baseDirectory) {
+    public void start(String errorMessage, File baseDirectory) throws IOException, InterruptedException, MojoExecutionException {
         final ProcessBuilder processBuilder = new ProcessBuilder(arguments);
-        try {
-            processBuilder.directory(baseDirectory).inheritIO().start().waitFor();
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+        final Process process = processBuilder.directory(baseDirectory).inheritIO().start();
+        process.waitFor();
+
+        if (process.exitValue() != 0) {
+            throw new MojoExecutionException(errorMessage);
         }
     }
 

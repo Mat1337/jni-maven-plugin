@@ -14,13 +14,15 @@ import java.io.IOException;
 @Mojo(name = "clean", defaultPhase = LifecyclePhase.CLEAN)
 public class CleanMojo extends AbstractMojo {
 
-    @Parameter(property = "include.directory", defaultValue = "${project.basedir}/include")
-    private File includeDirectory;
+    @Parameter(property = "generated", defaultValue = "${project.basedir}/src/generated")
+    private File generated;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         try {
-            FileUtil.deleteDirectory(includeDirectory);
+            if (!generated.exists())
+                return;
+            FileUtil.deleteDirectory(generated);
         } catch (IOException e) {
             throw new MojoExecutionException(e.getMessage());
         }

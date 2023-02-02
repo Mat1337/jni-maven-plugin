@@ -29,7 +29,7 @@ public class PackageNativesMojo extends AbstractMojo {
     @Parameter(property = "output", defaultValue = "target/library.so")
     private File output;
 
-    @Parameter(property = "jarPath", defaultValue = "natives")
+    @Parameter(property = "jar.path", defaultValue = "natives")
     private String jarPath;
 
     @Override

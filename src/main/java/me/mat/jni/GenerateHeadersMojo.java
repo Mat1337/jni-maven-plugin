@@ -26,8 +26,8 @@ public class GenerateHeadersMojo extends AbstractMojo {
     @Parameter(property = "project", readonly = true)
     private MavenProject project;
 
-    @Parameter(property = "include.directory", defaultValue = "${project.basedir}/include")
-    private File includeDirectory;
+    @Parameter(property = "generated", defaultValue = "${project.basedir}/src/generated")
+    private File generated;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -59,11 +59,19 @@ public class GenerateHeadersMojo extends AbstractMojo {
             }
         }
 
+        getLog().info("Classes");
+        classNames.forEach(className -> getLog().info("\t" + className));
+
         final ProcessStarter processStarter = new ProcessStarter("javah", "-force");
-        processStarter.set("-d", includeDirectory.getPath());
+        processStarter.set("-d", generated.getPath());
         processStarter.set("-classpath", outputDirectory.getAbsolutePath());
         classNames.forEach(processStarter::add);
-        processStarter.start(project.getBasedir());
+
+        try {
+            processStarter.start("Generation failed", project.getBasedir());
+        } catch (IOException | InterruptedException e) {
+            throw new MojoExecutionException(e.getMessage());
+        }
     }
 
     /**
