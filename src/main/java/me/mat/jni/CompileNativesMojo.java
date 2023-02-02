@@ -1,6 +1,7 @@
 package me.mat.jni;
 
 import me.mat.jni.util.FileUtil;
+import me.mat.jni.util.OperatingSystem;
 import me.mat.jni.util.ProcessStarter;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -22,14 +23,17 @@ public class CompileNativesMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project}", readonly = true)
     private MavenProject project;
 
+    @Parameter(defaultValue = "${project.build.directory}", readonly = true)
+    private File buildDirectory;
+
     @Parameter(defaultValue = "${java.home}", readonly = true)
     private File javaHome;
 
     @Parameter(property = "source", defaultValue = "${project.basedir}/src/main/c++")
     private File source;
 
-    @Parameter(property = "output", defaultValue = "target/library.so")
-    private File output;
+    @Parameter(property = "final.name", defaultValue = "${project.name}-${project.version}-native")
+    private String finalName;
 
     @Parameter(property = "generated", defaultValue = "${project.basedir}/src/generated")
     private File generated;
@@ -50,7 +54,7 @@ public class CompileNativesMojo extends AbstractMojo {
         FileUtil.findFiles(files[0], sourceFiles, ".cpp");
 
         final ProcessStarter processStarter = new ProcessStarter("g++", "-fPIC", "-shared");
-        processStarter.set("-o", output.getAbsolutePath());
+        processStarter.set("-o", OperatingSystem.getSystem().getDynamicLibrary(buildDirectory, finalName).getAbsolutePath());
         processStarter.add("-I" + generated.getAbsolutePath());
 
         if (linker != null) {

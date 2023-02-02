@@ -2,6 +2,7 @@ package me.mat.jni;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import me.mat.jni.util.OperatingSystem;
 import org.apache.maven.model.Build;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -26,8 +27,11 @@ public class PackageNativesMojo extends AbstractMojo {
     @Parameter(property = "project", readonly = true)
     private MavenProject project;
 
-    @Parameter(property = "output", defaultValue = "target/library.so")
-    private File output;
+    @Parameter(defaultValue = "${project.build.directory}", readonly = true)
+    private File buildDirectory;
+
+    @Parameter(property = "final.name", defaultValue = "${project.name}-${project.version}-native")
+    private String finalName;
 
     @Parameter(property = "jar.path", defaultValue = "natives")
     private String jarPath;
@@ -44,12 +48,14 @@ public class PackageNativesMojo extends AbstractMojo {
         final List<JarElement> elements = new ArrayList<>();
         readJar(jarFile, elements);
 
-        String outputPath = output.getAbsolutePath();
+        final File dynamicLibraryFile = OperatingSystem.getSystem().getDynamicLibrary(buildDirectory, finalName);
+
+        String outputPath = dynamicLibraryFile.getAbsolutePath();
         outputPath = outputPath.substring(outputPath.lastIndexOf(File.separator));
 
         try {
             final JarEntry entry = new JarEntry(jarPath + outputPath);
-            final byte[] bytes = read(Files.newInputStream(output.toPath()));
+            final byte[] bytes = read(Files.newInputStream(dynamicLibraryFile.toPath()));
             if (bytes.length == 0)
                 throw new StreamCorruptedException(entry.getName() + " has failed to read");
 

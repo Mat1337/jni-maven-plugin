@@ -1,6 +1,7 @@
 package me.mat.jni;
 
 import me.mat.jni.util.FileUtil;
+import me.mat.jni.util.OperatingSystem;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
