@@ -30,10 +30,10 @@ public class PackageNativesMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project.build.directory}", readonly = true)
     private File buildDirectory;
 
-    @Parameter(property = "final.name", defaultValue = "${project.name}-${project.version}-native")
+    @Parameter(property = "final.name", defaultValue = "${project.name}-${project.version}")
     private String finalName;
 
-    @Parameter(property = "jar.path", defaultValue = "natives")
+    @Parameter(property = "jar.path")
     private String jarPath;
 
     @Override
@@ -51,10 +51,10 @@ public class PackageNativesMojo extends AbstractMojo {
         final File dynamicLibraryFile = OperatingSystem.getSystem().getDynamicLibrary(buildDirectory, finalName);
 
         String outputPath = dynamicLibraryFile.getAbsolutePath();
-        outputPath = outputPath.substring(outputPath.lastIndexOf(File.separator));
+        outputPath = outputPath.substring(outputPath.lastIndexOf(File.separator) + 1);
 
         try {
-            final JarEntry entry = new JarEntry(jarPath + outputPath);
+            final JarEntry entry = new JarEntry((jarPath == null || jarPath.isEmpty() ? "" : jarPath + "/") + outputPath);
             final byte[] bytes = read(Files.newInputStream(dynamicLibraryFile.toPath()));
             if (bytes.length == 0)
                 throw new StreamCorruptedException(entry.getName() + " has failed to read");

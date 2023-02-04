@@ -20,7 +20,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mojo(name = "generate", defaultPhase = LifecyclePhase.PROCESS_CLASSES)
+@Mojo(name = "generate-headers", defaultPhase = LifecyclePhase.PROCESS_CLASSES)
 public class GenerateHeadersMojo extends AbstractMojo {
 
     @Parameter(property = "project", readonly = true)
