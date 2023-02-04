@@ -5,11 +5,7 @@
 
 ## Usage
 
-Place all the native source code in
-
-```java
-    src/main/c++
-```
+Place all the native source code in ```src/main/c++```
 
 ```xml
 <repositories>
@@ -18,14 +14,6 @@ Place all the native source code in
         <url>https://jitpack.io</url>
     </repository>
 </repositories>
-
-<dependencies>
-    <dependency>
-        <groupId>com.github.Mat1337</groupId>
-        <artifactId>jni-maven-plugin</artifactId>
-        <version>%TAG%</version>
-    </dependency>
-</dependencies>
 
 <build>
     <plugins>
