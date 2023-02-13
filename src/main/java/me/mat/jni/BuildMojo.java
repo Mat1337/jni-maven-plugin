@@ -14,7 +14,7 @@ import java.io.IOException;
 @Mojo(name = "build", defaultPhase = LifecyclePhase.PROCESS_CLASSES)
 public class BuildMojo extends AbstractMojo {
 
-    @Parameter(defaultValue = "${project.build.directory}/cmake", readonly = true)
+    @Parameter(defaultValue = "${project.basedir}/cmake", readonly = true)
     private File cmakeDirectory;
 
     @Parameter(property = "config", defaultValue = "debug")

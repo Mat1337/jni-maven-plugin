@@ -9,6 +9,9 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Mojo(name = "generate-cmake")
 public class GenerateCMakeMojo extends AbstractMojo {
@@ -16,8 +19,11 @@ public class GenerateCMakeMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project.basedir}", readonly = true)
     private File base;
 
-    @Parameter(defaultValue = "${project.build.directory}/cmake", readonly = true)
+    @Parameter(defaultValue = "${project.basedir}/cmake", readonly = true)
     private File cmakeDirectory;
+
+    @Parameter(property = "flags")
+    private String[] flags;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -27,7 +33,11 @@ public class GenerateCMakeMojo extends AbstractMojo {
                     throw new MojoExecutionException("Failed to create the CMake directory");
                 }
             }
-            new ProcessStarter("cmake", base.getAbsolutePath()).start(
+
+            final List<String> args = new ArrayList<>(Arrays.asList(flags));
+            args.add(base.getAbsolutePath());
+
+            new ProcessStarter("cmake", args.toArray(new String[0])).start(
                     "Failed to generate CMake project files",
                     cmakeDirectory
             );
