@@ -21,7 +21,7 @@ Place all the native source code in ```src/main/c++```
         <plugin>
             <groupId>me.mat.jni</groupId>
             <artifactId>jni-maven-plugin</artifactId>
-            <version>1.0</version>
+            <version>%VERSION%</version>
             <executions>
                 <execution>
                     <id>clean</id>
@@ -34,8 +34,8 @@ Place all the native source code in ```src/main/c++```
                     <id>build</id>
                     <phase>process-classes</phase>
                     <goals>
-                        <goal>generate</goal>
-                        <goal>compile</goal>
+                        <goal>generate-headers</goal>
+                        <goal>build</goal>
                     </goals>
                 </execution>
                 <execution>
