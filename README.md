@@ -9,17 +9,18 @@
 Place all the native source code in ```src/main/c++```
 
 ```xml
-<repositories>
-    <repository>
+<pluginRepositories>
+    <pluginRepository>
         <id>jitpack.io</id>
         <url>https://jitpack.io</url>
-    </repository>
-</repositories>
+    </pluginRepository>
+</pluginRepositories>
+
 
 <build>
     <plugins>
         <plugin>
-            <groupId>me.mat.jni</groupId>
+            <groupId>com.github.Mat1337</groupId>
             <artifactId>jni-maven-plugin</artifactId>
             <version>%VERSION%</version>
             <executions>
@@ -49,31 +50,4 @@ Place all the native source code in ```src/main/c++```
         </plugin>
     </plugins>
 </build>
-```
-
-## Linking configuration example
-
-```xml
-<configuration>
-    <includes>
-        <include>C:/path/to/include/directory</include>
-    </includes>
-    <linker>
-        <directories>
-            <directory>C:/path/to/link/directory</directory>
-        </directories>
-        <libraries>
-            <library>library_name</library>
-        </libraries>
-    </linker>
-</configuration>
-```
-
-## Extra compilation flags
-```xml
-<configuration>
-    <flags>
-        <flag>-fPIC</flag>
-    </flags>
-</configuration>
 ```
