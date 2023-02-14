@@ -32,7 +32,18 @@ public enum OperatingSystem {
      */
 
     public File getDynamicLibrary(File directory, String name) {
-        return new File(directory, name + suffix);
+        return new File(directory, getDynamicLibraryName(name));
+    }
+
+    /**
+     * Gets the name of the dynamic library path
+     *
+     * @param name {@link String} name of the file
+     * @return {@link String} name of the library
+     */
+
+    public String getDynamicLibraryName(String name) {
+        return ((this != WINDOWS) ? "lib" : "") + name + suffix;
     }
 
     /**
@@ -45,8 +56,10 @@ public enum OperatingSystem {
     public static OperatingSystem getSystem() {
         final String name = System.getProperty("os.name").toLowerCase();
         for (OperatingSystem operatingSystem : values()) {
-            if (operatingSystem.names.contains(name)) {
-                return operatingSystem;
+            for (String tag : operatingSystem.names) {
+                if (name.contains(tag)) {
+                    return operatingSystem;
+                }
             }
         }
         return WINDOWS;
